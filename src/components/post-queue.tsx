@@ -203,7 +203,7 @@ export function PostQueue({
                         <MediaImage
                           key={post.mediaUrl}
                           src={post.mediaUrl}
-                          className="h-14 w-14 rounded-lg border border-slate-200 object-cover"
+                          className="h-16 w-16 rounded-lg border border-slate-200 object-cover"
                         />
                       </div>
                     )}

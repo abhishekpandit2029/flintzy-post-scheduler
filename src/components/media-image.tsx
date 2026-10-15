@@ -33,6 +33,33 @@ export function MediaImage({
     );
   }
 
+  if (status === "loading") {
+    return (
+      <>
+        <span
+          role="status"
+          aria-label="Checking image URL"
+          className={`${className} grid place-items-center bg-slate-50 text-[9px] text-slate-400`}
+        >
+          …
+        </span>
+        <img
+          src={src}
+          alt={label}
+          onLoad={() => {
+            setStatus("loaded");
+            onStatusChange?.("loaded");
+          }}
+          onError={() => {
+            setStatus("broken");
+            onStatusChange?.("broken");
+          }}
+          className="hidden"
+        />
+      </>
+    );
+  }
+
   return (
     <img
       src={src}
@@ -45,7 +72,7 @@ export function MediaImage({
         setStatus("broken");
         onStatusChange?.("broken");
       }}
-      className={`${className} ${status === "loaded" ? "block" : "hidden"}`}
+      className={`${className} block`}
     />
   );
 }

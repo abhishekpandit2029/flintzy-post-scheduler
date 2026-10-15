@@ -93,6 +93,7 @@ export function usePosts() {
             ? {
                 ...item,
                 status: "failed",
+                scheduledAt: post.scheduledAt,
                 errorMessage: "Retry failed. Please try again.",
               }
             : item,
