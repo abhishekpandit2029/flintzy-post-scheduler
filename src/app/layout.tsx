@@ -17,7 +17,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Flintzy — Post scheduler",
+  title: "flintzy.",
   description: "Plan and manage your social media posts from one place.",
 };
 
