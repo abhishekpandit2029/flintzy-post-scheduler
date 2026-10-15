@@ -64,6 +64,12 @@ export function usePosts() {
     setPosts((current) => [post, ...current]);
   }, []);
 
+  const updatePost = useCallback((post: Post) => {
+    setPosts((current) =>
+      current.map((item) => (item.id === post.id ? post : item)),
+    );
+  }, []);
+
   const retryPost = useCallback(async (post: Post) => {
     setRetryingIds((current) => [...current, post.id]);
     setPosts((current) =>
@@ -96,5 +102,5 @@ export function usePosts() {
     setRetryingIds((current) => current.filter((id) => id !== post.id));
   }, []);
 
-  return { posts, addPost, retryPost, retryingIds, ready };
+  return { posts, addPost, updatePost, retryPost, retryingIds, ready };
 }

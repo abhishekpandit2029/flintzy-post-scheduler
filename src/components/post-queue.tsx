@@ -5,15 +5,18 @@ import { formatPostTime, formatTimezone, getDayTitle } from "@/lib/post-utils";
 import { PLATFORMS, STATUS_COLORS } from "@/constants/post-scheduler";
 import type { Platform, Post } from "@/types/post";
 import { PlatformIcon } from "@/components/platform-icon";
+import { MediaImage } from "@/components/media-image";
 
 export function PostQueue({
   posts,
   retryingIds,
   onRetry,
+  onEdit,
 }: {
   posts: Post[];
   retryingIds: string[];
   onRetry: (post: Post) => void;
+  onEdit: (post: Post) => void;
 }) {
   const [query, setQuery] = useState("");
   const [platformFilter, setPlatformFilter] = useState("All platforms");
@@ -91,8 +94,8 @@ export function PostQueue({
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 border-b border-slate-100 px-4 pb-3">
-        <label className="flex h-9 min-w-[180px] flex-1 items-center gap-2 rounded-lg border border-slate-200 px-2.5 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100">
+      <div className="grid grid-cols-2 gap-2 border-b border-slate-100 px-4 pb-3 sm:grid-cols-[minmax(180px,1fr)_auto_auto]">
+        <label className="col-span-2 flex h-9 min-w-0 items-center gap-2 rounded-lg border border-slate-200 px-2.5 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-100 sm:col-span-1">
           <span aria-hidden="true" className="text-lg text-slate-400 mb-1">
             ⌕
           </span>
@@ -105,7 +108,7 @@ export function PostQueue({
         </label>
         <select
           aria-label="Filter by platform"
-          className="h-9 min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2 text-xs text-slate-600 outline-none focus:border-violet-400 sm:flex-none"
+          className="h-9 w-full min-w-0 rounded-lg border border-slate-200 bg-white px-2 text-xs text-slate-600 outline-none focus:border-violet-400 sm:w-auto"
           value={platformFilter}
           onChange={(event) => setPlatformFilter(event.target.value)}
         >
@@ -116,7 +119,7 @@ export function PostQueue({
         </select>
         <select
           aria-label="Filter by status"
-          className="h-9 min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2 text-xs text-slate-600 outline-none focus:border-violet-400 sm:flex-none"
+          className="h-9 w-full min-w-0 rounded-lg border border-slate-200 bg-white px-2 text-xs text-slate-600 outline-none focus:border-violet-400 sm:w-auto"
           value={statusFilter}
           onChange={(event) => setStatusFilter(event.target.value)}
         >
@@ -195,17 +198,29 @@ export function PostQueue({
                     <p className="break-words text-xs leading-relaxed text-slate-600">
                       {post.content}
                     </p>
+                    {post.mediaUrl && (
+                      <div className="mt-2">
+                        <MediaImage
+                          key={post.mediaUrl}
+                          src={post.mediaUrl}
+                          className="h-14 w-14 rounded-lg border border-slate-200 object-cover"
+                        />
+                      </div>
+                    )}
                     {post.errorMessage && (
                       <p className="mt-1.5 text-[10px] text-red-600">
                         ⚠ {post.errorMessage}
                       </p>
                     )}
-                    {post.mediaUrl && (
-                      <p className="mt-1.5 text-[10px] text-slate-400">
-                        ▧ Image attached
-                      </p>
-                    )}
                   </div>
+                  {post.status !== "published" && (
+                    <button
+                      onClick={() => onEdit(post)}
+                      className="shrink-0 rounded-md border border-slate-200 px-2 py-1 text-[10px] font-semibold text-slate-600 hover:border-violet-200 hover:bg-violet-50 hover:text-violet-700"
+                    >
+                      Edit
+                    </button>
+                  )}
                   {post.status === "failed" && (
                     <button
                       onClick={() => onRetry(post)}

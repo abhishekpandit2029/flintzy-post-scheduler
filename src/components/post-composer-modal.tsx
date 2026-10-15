@@ -9,15 +9,20 @@ import {
 import { toLocalDateTimeInput } from "@/lib/post-utils";
 import type { Platform, Post } from "@/types/post";
 import { PlatformIcon } from "@/components/platform-icon";
+import { MediaImage } from "@/components/media-image";
 
 export function PostComposerModal({
   open,
   onClose,
   onCreated,
+  postToEdit,
+  onUpdated,
 }: {
   open: boolean;
   onClose: () => void;
   onCreated: (post: Post) => void;
+  postToEdit?: Post | null;
+  onUpdated?: (post: Post) => void;
 }) {
   const [content, setContent] = useState("");
   const [selected, setSelected] = useState<Platform[]>(["Instagram"]);
@@ -25,6 +30,20 @@ export function PostComposerModal({
   const [scheduledAt, setScheduledAt] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [imageStatus, setImageStatus] = useState<
+    "loading" | "loaded" | "broken"
+  >("loading");
+
+  useEffect(() => {
+    if (!open) return;
+    setContent(postToEdit?.content ?? "");
+    setSelected(postToEdit?.platforms ?? ["Instagram"]);
+    setMediaUrl(postToEdit?.mediaUrl ?? "");
+    setScheduledAt(
+      postToEdit ? toLocalDateTimeInput(new Date(postToEdit.scheduledAt)) : "",
+    );
+    setError("");
+  }, [open, postToEdit]);
 
   useEffect(() => {
     if (!open) return;
@@ -57,6 +76,9 @@ export function PostComposerModal({
     if (!scheduledAt || new Date(scheduledAt).getTime() <= Date.now()) {
       return setError("Choose a date and time in the future.");
     }
+    if (mediaUrl.trim() && !/^https?:\/\//i.test(mediaUrl.trim())) {
+      return setError("Image URL must start with http:// or https://.");
+    }
     if (overLimit.length) {
       return setError(
         `Your post is over the ${overLimit.map((platform) => `${platform} (${CHARACTER_LIMITS[platform]})`).join(", ")} character limit.`,
@@ -65,6 +87,19 @@ export function PostComposerModal({
 
     setSaving(true);
     try {
+      if (postToEdit) {
+        onUpdated?.({
+          ...postToEdit,
+          content: content.trim(),
+          platforms: selected,
+          mediaUrl: mediaUrl.trim() || undefined,
+          scheduledAt: new Date(scheduledAt).toISOString(),
+          status: "scheduled",
+          errorMessage: undefined,
+        });
+        onClose();
+        return;
+      }
       const response = await fetch("/api/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -116,7 +151,7 @@ export function PostComposerModal({
               id="composer-title"
               className="font-heading text-base font-bold"
             >
-              Create a post
+              {postToEdit ? "Edit post" : "Create a post"}
             </h2>
             <p className="mt-1 text-[11px] text-slate-500">
               Make something worth sharing.
@@ -189,7 +224,8 @@ export function PostComposerModal({
           {selected.length > 0 && (
             <div className="mt-2 divide-y divide-slate-100 border-t border-slate-100 pt-1">
               {selected.map((platform) => {
-                const exceeded = content.length > CHARACTER_LIMITS[platform];
+                const remaining = CHARACTER_LIMITS[platform] - content.length;
+                const exceeded = remaining < 0;
                 return (
                   <div
                     key={platform}
@@ -200,8 +236,9 @@ export function PostComposerModal({
                     />
                     {platform}
                     <span className="ml-auto">
-                      {content.length.toLocaleString()} /{" "}
-                      {CHARACTER_LIMITS[platform].toLocaleString()}
+                      {exceeded
+                        ? `${Math.abs(remaining).toLocaleString()} over limit`
+                        : `${remaining.toLocaleString()} left`}
                     </span>
                   </div>
                 );
@@ -229,6 +266,22 @@ export function PostComposerModal({
               className={`${inputClass} pl-9`}
             />
           </div>
+          {mediaUrl.trim() && (
+            <div className="mt-2 flex min-h-16 items-center gap-2">
+              <MediaImage
+                key={mediaUrl.trim()}
+                src={mediaUrl.trim()}
+                label="Image preview"
+                className="h-16 w-16 rounded-lg border border-slate-200 object-cover"
+                onStatusChange={setImageStatus}
+              />
+              {imageStatus === "loading" && (
+                <span className="text-[10px] text-slate-400">
+                  Checking image URL…
+                </span>
+              )}
+            </div>
+          )}
 
           <label className={`${labelClass} mt-4`} htmlFor="schedule-time">
             Schedule for
@@ -261,6 +314,10 @@ export function PostComposerModal({
               <>
                 <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
                 Scheduling…
+              </>
+            ) : postToEdit ? (
+              <>
+                Save changes <span className="ml-auto text-sm">→</span>
               </>
             ) : (
               <>

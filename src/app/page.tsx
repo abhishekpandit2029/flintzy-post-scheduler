@@ -9,8 +9,9 @@ import { usePosts } from "@/hooks/use-posts";
 import type { Post } from "@/types/post";
 
 export default function Home() {
-  const { posts, addPost, retryPost, retryingIds } = usePosts();
+  const { posts, addPost, updatePost, retryPost, retryingIds } = usePosts();
   const [composerOpen, setComposerOpen] = useState(false);
+  const [postToEdit, setPostToEdit] = useState<Post | null>(null);
   const [notice, setNotice] = useState("");
 
   function handlePostCreated(post: Post) {
@@ -22,9 +23,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <Sidebar />
-
       <section className="lg:ml-60">
-        <div className="mx-auto max-w-[1500px] px-4 pb-3 pt-7 sm:px-7 lg:px-9">
+        <div className="mx-auto max-w-[1500px] px-4 pb-3 pt-7 sm:px-6">
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
               <nav
@@ -55,7 +55,10 @@ export default function Home() {
             </div>
             <div className="flex shrink-0 gap-2">
               <button
-                onClick={() => setComposerOpen(true)}
+                onClick={() => {
+                  setPostToEdit(null);
+                  setComposerOpen(true);
+                }}
                 className="flex h-9 items-center gap-2 rounded-lg bg-violet-600 px-3 text-xs font-semibold text-white shadow-sm shadow-violet-200 hover:bg-violet-700"
               >
                 <span className="text-base leading-none">+</span>Create post
@@ -68,6 +71,10 @@ export default function Home() {
             posts={posts}
             retryingIds={retryingIds}
             onRetry={retryPost}
+            onEdit={(post) => {
+              setPostToEdit(post);
+              setComposerOpen(true);
+            }}
           />
 
           <footer className="flex min-h-14 flex-col items-start justify-center gap-2 py-3 text-[10px] text-slate-400 sm:flex-row sm:items-center sm:justify-between">
@@ -83,8 +90,13 @@ export default function Home() {
 
       <PostComposerModal
         open={composerOpen}
-        onClose={() => setComposerOpen(false)}
+        onClose={() => {
+          setComposerOpen(false);
+          setPostToEdit(null);
+        }}
         onCreated={handlePostCreated}
+        postToEdit={postToEdit}
+        onUpdated={updatePost}
       />
 
       {notice && (
