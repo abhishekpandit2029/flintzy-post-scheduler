@@ -18,8 +18,36 @@ export function MediaImage({
   );
 
   useEffect(() => {
+    let active = true;
+    const image = new window.Image();
+    const handleLoad = () => {
+      if (!active) return;
+      setStatus("loaded");
+      onStatusChange?.("loaded");
+    };
+    const handleError = () => {
+      if (!active) return;
+      setStatus("broken");
+      onStatusChange?.("broken");
+    };
+
     setStatus("loading");
     onStatusChange?.("loading");
+
+    image.onload = handleLoad;
+    image.onerror = handleError;
+    image.src = src;
+
+    if (image.complete) {
+      if (image.naturalWidth > 0) handleLoad();
+      else handleError();
+    }
+
+    return () => {
+      active = false;
+      image.onload = null;
+      image.onerror = null;
+    };
   }, [onStatusChange, src]);
 
   if (status === "broken") {
@@ -35,28 +63,13 @@ export function MediaImage({
 
   if (status === "loading") {
     return (
-      <>
-        <span
-          role="status"
-          aria-label="Checking image URL"
-          className={`${className} grid place-items-center bg-slate-50 text-[9px] text-slate-400`}
-        >
-          …
-        </span>
-        <img
-          src={src}
-          alt={label}
-          onLoad={() => {
-            setStatus("loaded");
-            onStatusChange?.("loaded");
-          }}
-          onError={() => {
-            setStatus("broken");
-            onStatusChange?.("broken");
-          }}
-          className="hidden"
-        />
-      </>
+      <span
+        role="status"
+        aria-label="Checking image URL"
+        className={`${className} grid place-items-center bg-slate-50 text-[9px] text-slate-400`}
+      >
+        …
+      </span>
     );
   }
 
@@ -64,10 +77,6 @@ export function MediaImage({
     <img
       src={src}
       alt={label}
-      onLoad={() => {
-        setStatus("loaded");
-        onStatusChange?.("loaded");
-      }}
       onError={() => {
         setStatus("broken");
         onStatusChange?.("broken");
