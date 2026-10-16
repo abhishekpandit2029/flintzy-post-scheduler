@@ -1,4 +1,4 @@
-# Flintzy Post Scheduler
+# flintzy.
 
 A responsive social post scheduler dashboard built with Next.js App Router, React, TypeScript, and Tailwind CSS. The queue starts empty; posts created in the current session are held in the frontend and created through one mocked API route.
 
