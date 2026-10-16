@@ -100,23 +100,23 @@ export function Sidebar() {
             onClick={() => setMobileOpen(false)}
             className="space-y-1"
           >
-            <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-xs font-medium text-slate-600">
+            <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-slate-600">
               <span className="w-4 text-center text-base">⌂</span>Overview
             </span>
             <span
               aria-current="page"
-              className="flex h-10 items-center gap-2 rounded-lg bg-violet-50 px-3 text-xs font-medium text-violet-700"
+              className="flex h-10 items-center gap-2 rounded-lg bg-violet-50 px-3 text-[13px] font-medium text-violet-700"
             >
               <span className="w-4 text-center text-base">◷</span>Content
               planner
             </span>
-            <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-xs font-medium text-slate-600">
+            <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-slate-600">
               <span className="w-4 text-center text-base">▥</span>Analytics
             </span>
-            <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-xs font-medium text-slate-600">
+            <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-slate-600">
               <span className="w-4 text-center text-base">▤</span>Posts
             </span>
-            <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-xs font-medium text-slate-600">
+            <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-slate-600">
               <span className="w-4 text-center text-base">◎</span>Channels
             </span>
           </nav>
@@ -132,22 +132,22 @@ export function Sidebar() {
           WORKSPACE
         </p>
         <nav aria-label="Workspace" className="space-y-1">
-          <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-xs font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
+          <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
             <span className="w-4 text-center text-base">⌂</span>Overview
           </span>
           <span
             aria-current="page"
-            className="flex h-10 items-center gap-2 rounded-lg bg-violet-50 px-3 text-xs font-medium text-violet-700"
+            className="flex h-10 items-center gap-2 rounded-lg bg-violet-50 px-3 text-[13px] font-medium text-violet-700"
           >
             <span className="w-4 text-center text-base">◷</span>Content planner
           </span>
-          <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-xs font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
+          <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
             <span className="w-4 text-center text-base">▥</span>Analytics
           </span>
-          <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-xs font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
+          <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
             <span className="w-4 text-center text-base">▤</span>Posts
           </span>
-          <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-xs font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
+          <span className="flex h-10 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
             <span className="w-4 text-center text-base">◎</span>Channels
           </span>
         </nav>
@@ -157,11 +157,11 @@ export function Sidebar() {
             <span className="mb-2 grid h-7 w-7 place-items-center rounded-lg bg-violet-100 text-violet-700">
               ✳
             </span>
-            <strong className="text-xs">Need a hand?</strong>
-            <p className="my-1.5 text-[11px] leading-relaxed text-slate-500">
+            <strong className="text-[13px]">Need a hand?</strong>
+            <p className="my-1.5 text-xs leading-relaxed text-slate-500">
               Visit our help center for tips and guides.
             </p>
-            <span className="text-[11px] font-semibold text-violet-700">
+            <span className="text-xs font-semibold text-violet-700">
               Help center ↗
             </span>
           </div>
@@ -170,7 +170,7 @@ export function Sidebar() {
               JD
             </span>
             <span>
-              <strong className="block text-xs font-semibold">
+              <strong className="block text-[13px] font-semibold">
                 Jamie Davis
               </strong>
               <small className="mt-1 block text-[10px] text-slate-400">

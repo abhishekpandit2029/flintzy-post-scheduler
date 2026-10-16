@@ -82,13 +82,13 @@ export function PostQueue({
     <section className={cardClass}>
       <div className="flex items-center justify-between p-4 pb-3">
         <div>
-          <h2 className="font-heading text-sm font-bold">
+          <h2 className="font-heading text-[15px] font-bold">
             Your queue{" "}
-            <span className="ml-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-500">
+            <span className="ml-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-500">
               {filtered.length}
             </span>
           </h2>
-          <p className="mt-1 text-[11px] text-slate-500">
+          <p className="mt-1 text-[13px] text-slate-500">
             All your content, one clear view.
           </p>
         </div>
@@ -100,7 +100,7 @@ export function PostQueue({
             ⌕
           </span>
           <input
-            className="min-w-0 flex-1 bg-transparent text-xs outline-none placeholder:text-slate-400"
+            className="min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-slate-400"
             placeholder="Search posts..."
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -108,7 +108,7 @@ export function PostQueue({
         </label>
         <select
           aria-label="Filter by platform"
-          className="h-9 w-full min-w-0 rounded-lg border border-slate-200 bg-white px-2 text-xs text-slate-600 outline-none focus:border-violet-400 sm:w-auto"
+          className="h-9 w-full min-w-0 rounded-lg border border-slate-200 bg-white px-2 text-[13px] text-slate-600 outline-none focus:border-violet-400 sm:w-auto"
           value={platformFilter}
           onChange={(event) => setPlatformFilter(event.target.value)}
         >
@@ -119,7 +119,7 @@ export function PostQueue({
         </select>
         <select
           aria-label="Filter by status"
-          className="h-9 w-full min-w-0 rounded-lg border border-slate-200 bg-white px-2 text-xs text-slate-600 outline-none focus:border-violet-400 sm:w-auto"
+          className="h-9 w-full min-w-0 rounded-lg border border-slate-200 bg-white px-2 text-[13px] text-slate-600 outline-none focus:border-violet-400 sm:w-auto"
           value={statusFilter}
           onChange={(event) => setStatusFilter(event.target.value)}
         >
@@ -138,10 +138,10 @@ export function PostQueue({
           >
             ⌕
           </span>
-          <strong className="text-sm font-semibold text-slate-800">
+          <strong className="text-[15px] font-semibold text-slate-800">
             {posts.length === 0 ? "Your queue is empty" : "No posts found"}
           </strong>
-          <p className="mt-1.5 text-xs text-slate-500">
+          <p className="mt-1.5 text-[13px] text-slate-500">
             {posts.length === 0
               ? "Scheduled posts will appear here."
               : "Try adjusting your search or filters."}
@@ -149,7 +149,7 @@ export function PostQueue({
           {posts.length > 0 && (
             <button
               onClick={clearFilters}
-              className="mt-3 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-violet-700 hover:bg-violet-50"
+              className="mt-3 rounded-lg border border-slate-200 px-3 py-1.5 text-[13px] font-medium text-violet-700 hover:bg-violet-50"
             >
               Clear filters
             </button>
@@ -195,7 +195,7 @@ export function PostQueue({
                         {post.status}
                       </span>
                     </div>
-                    <p className="break-words text-xs leading-relaxed text-slate-600">
+                    <p className="break-words text-[13px] leading-relaxed text-slate-600">
                       {post.content}
                     </p>
                     {post.mediaUrl && (
@@ -237,7 +237,7 @@ export function PostQueue({
         </div>
       )}
 
-      <div className="flex h-12 items-center border-t border-slate-100 px-3 text-[10px] text-slate-400 sm:px-4">
+      <div className="flex h-12 items-center border-t border-slate-100 px-3 text-xs text-slate-400 sm:px-4">
         Showing{" "}
         <strong className="mx-1 text-slate-600">{filtered.length}</strong> of{" "}
         <strong className="mx-1 text-slate-600">{posts.length}</strong>posts

@@ -20,14 +20,14 @@ export function PostStats({ posts }: { posts: Post[] }) {
             {stat.icon}
           </span>
           <div>
-            <small className="block text-[11px] text-slate-500">
+            <small className="block text-xs text-slate-500">
               {stat.label}
             </small>
             <strong className="mt-0.5 block font-heading text-lg font-bold">
               {stat.value}
             </strong>
           </div>
-          <span className="ml-auto self-end pb-1 text-[10px] text-slate-400">
+          <span className="ml-auto self-end pb-1 text-xs text-slate-400">
             {stat.note}
           </span>
         </div>
